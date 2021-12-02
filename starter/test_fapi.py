@@ -9,14 +9,14 @@ def test_get():
     assert response.status_code == 200
     assert json.loads(response.text)["Greeting"] == "Welcome to the Homepage of MLpipeline API!"
 
-def test_post_gt50k():
+def test_post_50k():
     input_dict = {
                     "age": 23,
                     "workclass": "Private",
                     "fnlgt": 201490,
                     "education": "HS-grad",
                     "education_num": 9,
-                    "marital_status": "Never-married",
+                    "marital_status": "Married-civ-spouse",
                     "occupation": "Adm-clerical",
                     "relationship": "Husband",
                     "race": "White",
@@ -30,19 +30,19 @@ def test_post_gt50k():
     assert response.status_code == 200
     assert json.loads(response.text)["prediction"] == "Salary <= 50k"
     
-def test_post_notgt50k():
+def test_post_n50k():
     input_dict = {
                     "age": 48,
                     "workclass": "Self-emp-inc",
                     "fnlgt": 287927,
                     "education": "HS-grad",
                     "education_num": 9,
-                    "marital_status": "HS-grad",
+                    "marital_status": "Married-civ-spouse",
                     "occupation": "Exec-managerial",
                     "relationship": "Wife",
                     "race": "White",
                     "sex": "Female",
-                    "capital_gain": 15024,
+                    "capital_gain": 25000,
                     "capital_loss": 0,
                     "hours_per_week": 20,
                     "native_country": "United-States"
