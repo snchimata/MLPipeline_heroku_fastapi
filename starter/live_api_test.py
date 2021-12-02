@@ -12,7 +12,7 @@ data1 = {
                 "fnlgt": 201490,
                 "education": "9th",
                 "education_num": 5,
-                "marital_status": "Never-married",
+                "marital_status": "Married-civ-spouse",
                 "occupation": "Adm-clerical",
                 "relationship": "Wife",
                 "race": "White",
