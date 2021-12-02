@@ -14,6 +14,8 @@ import joblib
 
 from .starter.ml.model import *
 from .starter.ml.data import *
+
+root = os.getcwd()
     
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
@@ -47,9 +49,22 @@ class Output(BaseModel):
         
 app = FastAPI()
 
-model = joblib.load("./starter/model/model.pkl")
-enc = joblib.load("./starter/model/encoder.enc")
-lb_enc = joblib.load("./starter/model/lb.enc")
+
+try:
+    model = joblib.load(os.path.join(root,"./starter/model/model.pkl"))
+except FileNotFoundError:
+    model = joblib.load("./starter/model/model.pkl")
+
+try:
+    enc = joblib.load(os.path.join(root,"./starter/model/encoder.enc"))
+except FileNotFoundError:
+    enc = joblib.load("./starter/model/encoder.enc")
+
+try:
+    lb_enc = joblib.load(os.path.join(root,"./starter/model/lb.enc"))
+except FileNotFoundError:
+    lb_enc = joblib.load("./starter/model/lb.enc")
+
 
 @app.get("/")
 async def root():
@@ -57,7 +72,7 @@ async def root():
 
 @app.post("/predict", response_model=Output, status_code=200)
 async def predict(data: Input):
-    '''
+
     input_data = pd.DataFrame([{"age" : data.age,
                         "workclass" : data.workclass,
                         "fnlgt" : data.fnlgt,
@@ -72,9 +87,7 @@ async def predict(data: Input):
                         "capital-loss" : data.capital_loss,
                         "hours-per-week" : data.hours_per_week,
                         "native-country" : data.native_country}])
-    '''
-    request_dict = data.dict(by_alias=True)
-    input_data = pd.DataFrame(request_dict, index=[0])
+
 
     cat_features = [
     "workclass",
@@ -86,15 +99,16 @@ async def predict(data: Input):
     "sex",
     "native-country"]
     
-    X, _, _, _ = process_data(input_data, 
-                                     categorical_features=cat_features, 
-                                     training=False, 
-                                     encoder = enc, 
-                                     lb = lb_enc) 
-    prediction_outcome = inference(model, X)
+    X, _, _, _ = process_data(input_data,
+                              categorical_features=cat_features, 
+                              training=False, 
+                              encoder = enc, 
+                              lb = lb_enc) 
+                              
+    prediction = inference(model, X)
     
-    if prediction_outcome == 1:
-        pred = "Salary > 50k"
+    if prediction == 1:
+        output = "Salary > 50k"
     else:
-        pred = "Salary <= 50k"
-    return {"prediction": pred}
+        output = "Salary <= 50k"
+    return {"prediction": output}
