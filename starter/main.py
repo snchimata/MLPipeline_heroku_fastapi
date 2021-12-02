@@ -11,8 +11,9 @@ from typing import List
 import numpy as np
 import pandas as pd
 import joblib
-from starter.ml.model import *
-from starter.ml.data import *
+
+from .starter.ml.model import *
+from .starter.ml.data import *
 
 
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
