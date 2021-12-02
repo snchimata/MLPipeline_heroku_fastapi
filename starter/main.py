@@ -73,7 +73,7 @@ async def predict(data: Input):
                         "hours-per-week" : data.hours_per_week,
                         "native-country" : data.native_country}])
     '''
-    request_dict = input.dict(by_alias=True)
+    request_dict = data.dict(by_alias=True)
     input_data = pd.DataFrame(request_dict, index=[0])
 
     cat_features = [
