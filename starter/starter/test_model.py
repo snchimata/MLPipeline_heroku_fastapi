@@ -37,6 +37,7 @@ def model():
     """ Load a pretrained model """
     return joblib.load("./starter/model/model.pkl")
 
+#Test to process data function
 def test_preprocess_data(data):
     """ Check to see if there are no . """
     try:    
@@ -50,25 +51,28 @@ def test_preprocess_data(data):
             "sex",
             "native-country",
         ]
-        process_data(data, categorical_features=cat_features, label="salary", training=True)
+        X, y, encoder, lb = process_data(data, categorical_features=cat_features, label="salary", training=True)
     except:
         assert False
-    assert True
-    
+    assert len(X)>0
+    assert len(X)==len(y)
+
+#Test model info
 def test_model(model):
     try:
         model.best_estimator_
     except:
         assert False
     assert True
-    
+
+#Test inference length and compare to input data  
 def test_inference(X_test):
     model = joblib.load("./starter/model/model.pkl")
     preds = inference(model, X_test)
     assert len(preds) > 0
     assert len(preds) == X_test.shape[0]
     
-
+#Test metrics
 def test_model_metrics(X_test,y_test):
     model = joblib.load("./starter/model/model.pkl")
     preds = inference(model, X_test)
