@@ -1,0 +1,4 @@
+outs:
+- md5: 2223d5a7742f557ced161cd2d7b310a0
+  size: 208568
+  path: y_train.pkl
