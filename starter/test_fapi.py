@@ -1,16 +1,8 @@
-import sys
-import os
-
-
 from fastapi.testclient import TestClient
-<<<<<<< Updated upstream
 from .main import app
-=======
-from . import main
->>>>>>> Stashed changes
 import json
 
-client = TestClient(main.app)
+client = TestClient(app)
 
 def test_get():
     response = client.get("/")
