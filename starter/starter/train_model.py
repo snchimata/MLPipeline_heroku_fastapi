@@ -46,3 +46,28 @@ model = train_model(X_train, y_train)
 joblib.dump(model, "../model/model.pkl") 
 joblib.dump(encoder, "../model/encoder.enc")
 joblib.dump(lb, "../model/lb.enc")
+
+
+def model_metrics(model, X, y, description):
+    preds = inference(model, X)
+    precision, recall, fbeta = compute_model_metrics(y, preds)
+    
+    with open('../screenshots/model_metrics_output.txt', 'a') as f:
+        f.write(f'{description}\n')
+        f.write('\n')
+        f.write('precision: ')
+        f.write(str(precision))
+        f.write('\n')
+        f.write('recall: ')
+        f.write(str(recall))
+        f.write('\n')
+        f.write('fbeta: ')
+        f.write(str(fbeta))
+        f.write('\n\n')
+    
+    f.close()
+
+with open('../screenshots/model_metrics_output.txt', 'w') as f:
+    pass
+model_metrics(model, X_train, y_train, "Training Set Metrics")
+model_metrics(model, X_test, y_test, "Test Set Metrics")
